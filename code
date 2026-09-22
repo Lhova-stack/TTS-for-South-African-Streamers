@@ -1,1 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SA TTS - Interactive Audio for South African Streamers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: rgba(10, 10, 15, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #1a1a2e;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00d4aa;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul a {
+            color: #a0a0b0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav ul a:hover {
+            color: #00d4aa;
+        }
+
+        .cta-button {
+            background-color: #00d43c;
+            color: #0a0a0f;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #00b83d;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 5% 4rem;
+            background: radial-gradient(ellipse at top, #090912 0%, #0a0a0f 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            max-width: 900px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .hero h1 span {
+            color: #00d4aa;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #a0a0b0;
+            max-width: 650px;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .secondary-button {
+            background-color: transparent;
+            color: #00d4aa;
+            padding: 0.6rem 1.5rem;
+            border: 1px solid #00d4aa;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .secondary-button:hover {
+            background-color: #00d4aa;
+            color: #0a0a0f;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 6rem 5%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #a0a0b0;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: #12121a;
+            border: 1px solid #1a1a2e;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: #00d4aa;
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(0, 212, 170, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            color: #00d4aa;
+            font-weight: 700;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: #a0a0b0;
+            font-size: 0.95rem;
+        }
+
+        /* How It Works */
+        .steps-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: #00d4aa;
+            color: #0a0a0f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            color: #ffffff;
+            margin-bottom: 0.4rem;
+        }
+
+        .step-content p {
+            color: #a0a0b0;
+            font-size: 0.95rem;
+        }
+
+        /* Voices Section */
+        .voices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .voice-card {
+            background-color: #12121a;
+            border: 1px solid #1a1a2e;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .voice-card:hover {
+            border-color: #00d4aa;
+        }
+
+        .voice-card h4 {
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .voice-card p {
+            color: #a0a0b0;
+            font-size: 0.85rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background-color: #12121a;
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #a0a0b0;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 5%;
+            border-top: 1px solid #1a1a2e;
+            color: #606070;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">SA TTS</div>
+        <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#voices">Voices</a></li>
+        </ul>
+        <a href="#cta" class="cta-button">Get Early Access</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Authentic South African Voices for <span>Kick Streamers</span></h1>
+        <p>Give your viewers a TTS experience they actually recognise. Local accents, local personalities, built for the South African streaming community.</p>
+        <div class="hero-buttons">
+            <a href="#cta" class="cta-button">Join the Pilot</a>
+            <a href="#how-it-works" class="secondary-button">See How It Works</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <h2 class="section-title">Built for Local Streamers</h2>
+        <p class="section-subtitle">Everything you need to turn chat interaction into entertainment and revenue.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">01</div>
+                <h3>Local Voice Library</h3>
+                <p>Choose from authentic South African voices including isiXhosa, isiZulu, Afrikaans, and recognisable local personalities.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">02</div>
+                <h3>Chat and Channel Point Triggers</h3>
+                <p>Let viewers trigger TTS through chat commands, channel point redemptions, or donations. You control the cost.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">03</div>
+                <h3>Soundboard Integration</h3>
+                <p>Add your own sound clips and assign them to triggers. Combine TTS with stingers and sound effects in one system.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">04</div>
+                <h3>Clip Vault</h3>
+                <p>Every TTS moment is saved automatically. Download the funniest ones and share them as clips on TikTok and YouTube.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">05</div>
+                <h3>One-Time OBS Setup</h3>
+                <p>Add your unique browser source URL once. Everything else runs through your dashboard. No technical headaches.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">06</div>
+                <h3>Monetisation Built In</h3>
+                <p>Set a price per TTS. Keep the revenue. We handle the voice generation and delivery to your stream.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">From setup to your first TTS alert in under five minutes.</p>
+
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Connect Your Kick Channel</h3>
+                    <p>Log in with your Kick account. Your channel name and status appear instantly in your dashboard.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Select Your Voices</h3>
+                    <p>Browse the local voice library and toggle on the ones you want. Preview each voice before enabling it.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Set Your Triggers</h3>
+                    <p>Choose how viewers activate TTS: a chat command like !tts, a channel point reward, or a donation amount.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Add Your Browser Source</h3>
+                    <p>Copy your unique URL and paste it into OBS as a browser source. This is the only technical step.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Go Live and Get Paid</h3>
+                    <p>Viewers trigger TTS. You get the engagement. Clips are saved automatically. Revenue is tracked in your dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voices Section -->
+    <section id="voices">
+        <h2 class="section-title">Voices Your Audience Will Recognise</h2>
+        <p class="section-subtitle">A preview of the voice categories available in the pilot.</p>
+
+        <div class="voices-grid">
+            <div class="voice-card">
+                <h4>isiXhosa</h4>
+                <p>Male and female voices</p>
+            </div>
+            <div class="voice-card">
+                <h4>isiZulu</h4>
+                <p>Male and female voices</p>
+            </div>
+            <div class="voice-card">
+                <h4>Afrikaans</h4>
+                <p>Male and female voices</p>
+            </div>
+            <div class="voice-card">
+                <h4>SA English</h4>
+                <p>Local accent variations</p>
+            </div>
+            <div class="voice-card">
+                <h4>Personality Voices</h4>
+                <p>Recognisable local figures</p>
+            </div>
+            <div class="voice-card">
+                <h4>Custom Cloning</h4>
+                <p>Create your own voice</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta">
+        <div class="cta-section">
+            <h2>Be Part of the Pilot</h2>
+            <p>We are onboarding a small group of South African streamers to test the platform and shape its development. If you stream on Kick and want a TTS tool built for your audience, apply now.</p>
+            <a href="mailto:hello@sattrs.co.za" class="cta-button">Apply for Early Access</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>SA TTS. Built for South African streamers. 2025.</p>
+    </footer>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SA TTS - Interactive Audio for South African Streamers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: rgba(10, 10, 15, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #1a1a2e;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00d4aa;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul a {
+            color: #a0a0b0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav ul a:hover {
+            color: #00d4aa;
+        }
+
+        .cta-button {
+            background-color: #00d4aa;
+            color: #0a0a0f;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #00b894;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 5% 4rem;
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0f 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            max-width: 900px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .hero h1 span {
+            color: #00d4aa;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #a0a0b0;
+            max-width: 650px;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .secondary-button {
+            background-color: transparent;
+            color: #00d4aa;
+            padding: 0.6rem 1.5rem;
+            border: 1px solid #00d4aa;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .secondary-button:hover {
+            background-color: #00d4aa;
+            color: #0a0a0f;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 6rem 5%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #a0a0b0;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: #12121a;
+            border: 1px solid #1a1a2e;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: #00d4aa;
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(0, 212, 170, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            color: #00d4aa;
+            font-weight: 700;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: #a0a0b0;
+            font-size: 0.95rem;
+        }
+
+        /* How It Works */
+        .steps-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: #00d4aa;
+            color: #0a0a0f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            color: #ffffff;
+            margin-bottom: 0.4rem;
+        }
+
+        .step-content p {
+            color: #a0a0b0;
+            font-size: 0.95rem;
+        }
+
+        /* Voices Section */
+        .voices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .voice-card {
+            background-color: #12121a;
+            border: 1px solid #1a1a2e;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .voice-card:hover {
+            border-color: #00d4aa;
+        }
+
+        .voice-card h4 {
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .voice-card p {
+            color: #a0a0b0;
+            font-size: 0.85rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background-color: #12121a;
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #a0a0b0;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 5%;
+            border-top: 1px solid #1a1a2e;
+            color: #606070;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">SA TTS</div>
+        <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#voices">Voices</a></li>
+        </ul>
+        <a href="#cta" class="cta-button">Get Early Access</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Authentic South African Voices for <span>Kick Streamers</span></h1>
+        <p>Give your viewers a TTS experience they actually recognise. Local accents, local personalities, built for the South African streaming community.</p>
+        <div class="hero-buttons">
+            <a href="#cta" class="cta-button">Join the Pilot</a>
+            <a href="#how-it-works" class="secondary-button">See How It Works</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <h2 class="section-title">Built for Local Streamers</h2>
+        <p class="section-subtitle">Everything you need to turn chat interaction into entertainment and revenue.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">01</div>
+                <h3>Local Voice Library</h3>
+                <p>Choose from authentic South African voices including isiXhosa, isiZulu, Afrikaans, and recognisable local personalities.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">02</div>
+                <h3>Chat and Channel Point Triggers</h3>
+                <p>Let viewers trigger TTS through chat commands, channel point redemptions, or donations. You control the cost.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">03</div>
+                <h3>Soundboard Integration</h3>
+                <p>Add your own sound clips and assign them to triggers. Combine TTS with stingers and sound effects in one system.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">04</div>
+                <h3>Clip Vault</h3>
+                <p>Every TTS moment is saved automatically. Download the funniest ones and share them as clips on TikTok and YouTube.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">05</div>
+                <h3>One-Time OBS Setup</h3>
+                <p>Add your unique browser source URL once. Everything else runs through your dashboard. No technical headaches.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">06</div>
+                <h3>Monetisation Built In</h3>
+                <p>Set a price per TTS. Keep the revenue. We handle the voice generation and delivery to your stream.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">From setup to your first TTS alert in under five minutes.</p>
+
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Connect Your Kick Channel</h3>
+                    <p>Log in with your Kick account. Your channel name and status appear instantly in your dashboard.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Select Your Voices</h3>
+                    <p>Browse the local voice library and toggle on the ones you want. Preview each voice before enabling it.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Set Your Triggers</h3>
+                    <p>Choose how viewers activate TTS: a chat command like !tts, a channel point reward, or a donation amount.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Add Your Browser Source</h3>
+                    <p>Copy your unique URL and paste it into OBS as a browser source. This is the only technical step.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Go Live and Get Paid</h3>
+                    <p>Viewers trigger TTS. You get the engagement. Clips are saved automatically. Revenue is tracked in your dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voices Section -->
+    <section id="voices">
+        <h2 class="section-title">Voices Your Audience Will Recognise</h2>
+        <p class="section-subtitle">A preview of the voice categories available in the pilot.</p>
+
+        <div class="voices-grid">
+            <div class="voice-card">
+                <h4>isiXhosa</h4>
+                <p>Male and female voices</p>
+            </div>
+            <div class="voice-card">
+                <h4>isiZulu</h4>
+                <p>Male and female voices</p>
+            </div>
+            <div class="voice-card">
+                <h4>Afrikaans</h4>
+                <p>Male and female voices</p>
+            </div>
+            <div class="voice-card">
+                <h4>SA English</h4>
+                <p>Local accent variations</p>
+            </div>
+            <div class="voice-card">
+                <h4>Personality Voices</h4>
+                <p>Recognisable local figures</p>
+            </div>
+            <div class="voice-card">
+                <h4>Custom Cloning</h4>
+                <p>Create your own voice</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta">
+        <div class="cta-section">
+            <h2>Be Part of the Pilot</h2>
+            <p>We are onboarding a small group of South African streamers to test the platform and shape its development. If you stream on Kick and want a TTS tool built for your audience, apply now.</p>
+            <a href="mailto:hello@sattrs.co.za" class="cta-button">Apply for Early Access</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>SA TTS. Built for South African streamers. 2025.</p>
+    </footer>
+
+</body>
+</html>
 
